@@ -13,7 +13,7 @@ export default function SignupForm() {
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const { signup } = useSignupMutation();
   const [formData, setFormData] = useState({
-    fullName: "",
+    name: "",
     email: "",
     password: "",
     confirmPassword: "",
@@ -81,8 +81,8 @@ export default function SignupForm() {
                 style={{ color: "#821435" }}
               />
               <input
-                name="fullName"
-                value={formData.fullName}
+                name="name"
+                value={formData.name}
                 onChange={handleChange}
                 placeholder="Enter your full name"
                 className="w-full pl-10 pr-4 py-2 border rounded-lg outline-none focus:ring-1 transition-all duration-200"
