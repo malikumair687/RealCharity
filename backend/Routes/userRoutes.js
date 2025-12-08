@@ -15,7 +15,6 @@ import {
 } from "../Controllers/UserControllers.js";
 
 
-
 import { LoginRequired } from "../Auth/LoginRequired.js";
 import upload from "../MiddleWare/multer.js";
 
@@ -24,6 +23,7 @@ const router = express.Router();
 // Public routes
 router.post("/signup", signup);
 router.post("/login", login);
+router.post("/verify-otp", verifyUser);
 router.post("/forget-password", forgetPassword);
 router.post("/reset-password", resetPassword);
 router.post("/logout", logout);

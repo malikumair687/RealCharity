@@ -19,6 +19,8 @@ import WalletPage from "./components/dashbood/charityy/wallet/WalletPage";
 import DonorReports from "./components/dashbood/charityy/reports/DonorReports";
 import DonorSettings from "./components/dashbood/charityy/settings/DonorSettings";
 import DonorProfile from "./components/dashbood/charityy/profile/DonorProfile";
+import VerifyOTP from "./pages/VerifyOTP";
+import ForgotPassword from "./pages/ForgotPassword";
 
 
 
@@ -30,7 +32,7 @@ import DonorProfile from "./components/dashbood/charityy/profile/DonorProfile";
 
 const MainLayout = () => (
   <>
-   <Toaster position="top-center" reverseOrder={false} />
+    <Toaster position="top-center" reverseOrder={false} />
     <Navbar />
     <Outlet />
     <Footer />
@@ -42,31 +44,33 @@ const Router = createBrowserRouter([
     path: "/",
     element: <MainLayout />,
     children: [
-      {path:"/",element:<Home/>},
-      {path:"/about",element:<About/>},
-      {path:"/donor",element:<Donor/>},
-      {path:"/campaign",element:<Campaign/>},
-      {path:"/contact",element:<Contact/>},
-      {path:"/makedonation",element:<DonationForm/>},      
-      {path:"/login",element:<LoginForm/>},
-      {path:"/signup",element:<SignupForm/>},
-      
+      { path: "/", element: <Home /> },
+      { path: "/about", element: <About /> },
+      { path: "/donor", element: <Donor /> },
+      { path: "/campaign", element: <Campaign /> },
+      { path: "/contact", element: <Contact /> },
+      { path: "/makedonation", element: <DonationForm /> },
+      { path: "/login", element: <LoginForm /> },
+      { path: "/signup", element: <SignupForm /> },
+      { path: "/verify-otp", element: <VerifyOTP /> },
+      { path: "/forgot-password", element: <ForgotPassword /> }
+
     ],
-  
+
   },
-{
-  path: "/dashboard",
-  element: <DashboardLayout />,
-  children: [
-    { path: "", element: <DashboardHome /> },       
-  { path: "mydonations", element: <MyDonations /> },  
-  { path: "campaigns", element: <CampaignPage /> },   
-  { path: "wallet", element: <WalletPage /> },        
-  { path: "reports", element: <DonorReports /> },     
-  { path: "settings", element: <DonorSettings /> },   
-  { path: "profile", element: <DonorProfile /> },
-  ],
-}
+  {
+    path: "/dashboard",
+    element: <DashboardLayout />,
+    children: [
+      { path: "", element: <DashboardHome /> },
+      { path: "mydonations", element: <MyDonations /> },
+      { path: "campaigns", element: <CampaignPage /> },
+      { path: "wallet", element: <WalletPage /> },
+      { path: "reports", element: <DonorReports /> },
+      { path: "settings", element: <DonorSettings /> },
+      { path: "profile", element: <DonorProfile /> },
+    ],
+  }
 
 ]);
 
