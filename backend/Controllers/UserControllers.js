@@ -51,7 +51,7 @@ export const signup = asyncHandler(async (req, res) => {
 });
 
 // Verify OTP API
-export const verifyUser = asyncHandler(async (req, res) => {
+export const verifyUser  = asyncHandler(async (req, res) => {
   const { email, otp } = req.body;
   const user = await User.findOne({ email });
 

@@ -11,6 +11,7 @@ import {
   myProfile,
   changePassword,
   updateProfile,
+  verifyUser,
 } from "../Controllers/UserControllers.js"; // Make sure the path and casing match
 
 
@@ -22,6 +23,7 @@ const router = express.Router();
 // Public routes
 router.post("/signup", signup);
 router.post("/login", login);
+router.post("/verify-otp", verifyUser);
 router.post("/forget-password", forgetPassword);
 router.post("/reset-password", resetPassword);
 router.post("/logout", logout);
