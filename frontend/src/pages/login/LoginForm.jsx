@@ -6,10 +6,12 @@ import "aos/dist/aos.css";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-hot-toast";
+import { useLoginMutation } from "../../../Redux/slices/UserApi";
 
 export default function LoginForm() {
   const navigate = useNavigate();
   const [showPassword, setShowPassword] = useState(false);
+  const [login] = useLoginMutation()
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -25,11 +27,8 @@ export default function LoginForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post(
-        "http://localhost:8000/api/v1/user/login",
-        formData
-      );
-      console.log(response.data);
+      const response = await login(formData).unwrap()
+      console.log(response);
       toast.success("Login Successfully");
       navigate("/");
     } catch (error) {
