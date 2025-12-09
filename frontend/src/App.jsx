@@ -6,8 +6,8 @@ import About from "./pages/About";
 import Donor from "./pages/Donor";
 import Campaign from "./pages/Campaign";
 import Contact from "./pages/Contact";
-import Navbar from "./components/common/Navbar"
-import Footer from "./components/common/Footer"
+import Navbar from "./components/common/Navbar";
+import Footer from "./components/common/Footer";
 import SignupForm from "./pages/signup/SignupForm";
 import LoginForm from "./pages/login/LoginForm";
 import DonationForm from "./pages/donation/DonationForm";
@@ -23,20 +23,21 @@ import VerifyOTP from "./pages/VerifyOTP";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 
-
-
-
-
-
-
-
-
+// Layout with Navbar + Footer
 const MainLayout = () => (
   <>
     <Toaster position="top-center" reverseOrder={false} />
     <Navbar />
     <Outlet />
     <Footer />
+  </>
+);
+
+// Blank layout (for modals or pages without Navbar/Footer)
+const BlankLayout = () => (
+  <>
+    <Toaster position="top-center" reverseOrder={false} />
+    <Outlet />
   </>
 );
 
@@ -50,16 +51,19 @@ const Router = createBrowserRouter([
       { path: "/donor", element: <Donor /> },
       { path: "/campaign", element: <Campaign /> },
       { path: "/contact", element: <Contact /> },
-      { path: "/makedonation", element: <DonationForm /> },
       { path: "/login", element: <LoginForm /> },
       { path: "/signup", element: <SignupForm /> },
       { path: "/verify-otp", element: <VerifyOTP /> },
       { path: "/forgot-password", element: <ForgotPassword /> },
       { path: "/reset-password", element: <ResetPassword /> },
-
-
     ],
-
+  },
+  {
+    path: "/makedonation",
+    element: <BlankLayout />, // No Navbar/Footer
+    children: [
+      { path: "", element: <DonationForm /> },
+    ],
   },
   {
     path: "/dashboard",
@@ -74,7 +78,6 @@ const Router = createBrowserRouter([
       { path: "profile", element: <DonorProfile /> },
     ],
   }
-
 ]);
 
 export default function App() {
