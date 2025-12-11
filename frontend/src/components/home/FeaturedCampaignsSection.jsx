@@ -1,6 +1,10 @@
+// 📌 File: FeaturedCampaignsSection.jsx
 import React from "react";
+import { Link, useNavigate } from "react-router-dom";
 
 const FeaturedCampaignsSection = () => {
+  const navigate = useNavigate();
+
   const campaigns = [
     {
       category: "Health",
@@ -65,10 +69,7 @@ const FeaturedCampaignsSection = () => {
         {/* Section Header */}
         <div className="text-center max-w-3xl mx-auto mb-16">
           <div className="inline-flex items-center justify-center px-4 py-1.5 rounded-full font-medium text-sm mb-6"
-            style={{
-              background: "#82143520",
-              color: "#821435"
-            }}>
+            style={{ background: "#82143520", color: "#821435" }}>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               className="h-4 w-4 mr-2"
@@ -109,28 +110,19 @@ const FeaturedCampaignsSection = () => {
                   alt={campaign.title}
                   className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105"
                 />
-
                 <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent"></div>
-
                 <div className="absolute top-4 left-4">
                   <span
                     className="px-3 py-1.5 rounded-full text-xs font-semibold"
-                    style={{
-                      background: "#82143520",
-                      color: "#821435"
-                    }}
+                    style={{ background: "#82143520", color: "#821435" }}
                   >
                     {campaign.category}
                   </span>
                 </div>
-
                 {campaign.verified && (
                   <div
                     className="absolute top-4 right-4 rounded-full p-1.5 shadow-md"
-                    style={{
-                      background: "white",
-                      color: "#543D2E"
-                    }}
+                    style={{ background: "white", color: "#543D2E" }}
                   >
                     ✔
                   </div>
@@ -140,22 +132,17 @@ const FeaturedCampaignsSection = () => {
               {/* Content */}
               <div className="p-6">
                 <span className="text-gray-900 font-medium">{campaign.charity}</span>
-
                 <h3 className="text-xl font-semibold mb-3 mt-2 leading-tight text-[#543D2E]">
                   {campaign.title}
                 </h3>
-
                 <p className="text-gray-700/80 mb-5">{campaign.description}</p>
 
                 {/* Progress */}
                 <div className="mb-5">
                   <div className="flex justify-between text-sm text-gray-900 mb-2 font-medium">
-                    <span>
-                      {calculatePercentage(campaign.raised, campaign.goal)}% funded
-                    </span>
+                    <span>{calculatePercentage(campaign.raised, campaign.goal)}% funded</span>
                     <span>{formatCurrency(campaign.raised)}</span>
                   </div>
-
                   <div className="w-full bg-gray-200 rounded-full h-2.5">
                     <div
                       className="h-2.5 rounded-full"
@@ -165,7 +152,6 @@ const FeaturedCampaignsSection = () => {
                       }}
                     ></div>
                   </div>
-
                   <div className="flex justify-between text-xs text-gray-500 mt-1">
                     <span>Raised</span>
                     <span>Goal: {formatCurrency(campaign.goal)}</span>
@@ -178,15 +164,15 @@ const FeaturedCampaignsSection = () => {
                   <span>{campaign.daysLeft} days left</span>
                 </div>
 
-                {/* CTA */}
-                <button
-                  className="w-full text-white font-semibold py-2.5 px-4 rounded-lg transition duration-300 shadow-md hover:shadow-lg"
-                  style={{
-                    background: "linear-gradient(to right, #543D2E, #821435, #543D2E)"
-                  }}
-                >
-                  Donate Now
-                </button>
+                {/* Donate Now Button */}
+                <Link to={`/makedonation?campaign=${encodeURIComponent(campaign.title)}`}>
+                  <button
+                    className="w-full text-white font-semibold py-2.5 px-4 rounded-lg transition duration-300 shadow-md hover:shadow-lg mt-5"
+                    style={{ background: "linear-gradient(to right, #543D2E, #821435, #543D2E)" }}
+                  >
+                    Donate Now
+                  </button>
+                </Link>
               </div>
             </div>
           ))}
@@ -195,11 +181,12 @@ const FeaturedCampaignsSection = () => {
         {/* Footer CTA */}
         <div className="text-center mt-12">
           <button
+            onClick={() => navigate("/campaign")} // ✅ Navigate to campaigns page
             className="font-semibold py-2.5 px-10 rounded-lg transition duration-300 shadow-md hover:shadow-lg border"
             style={{
               background: "#543D2E10",
               borderColor: "#543D2E50",
-              color: "#543D2E"
+              color: "#543D2E",
             }}
           >
             View All Campaigns

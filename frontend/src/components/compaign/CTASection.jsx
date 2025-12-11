@@ -1,8 +1,10 @@
 import React, { useEffect } from "react";
 import AOS from "aos";
 import "aos/dist/aos.css";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const CTASection = () => {
+  const navigate = useNavigate();
   useEffect(() => {
     AOS.init({ duration: 1000 });
   }, []);
@@ -17,7 +19,8 @@ const CTASection = () => {
           Your contribution can bring hope to communities in need.  
           Start supporting a campaign now and help us create a better tomorrow.
         </p>
-        <button
+        <button 
+        onClick={() => navigate("/donor")}
           className="px-8 py-4 bg-white text-[#821435] font-bold rounded-full shadow-lg hover:bg-gray-200 transition"
           data-aos="fade-up"
           data-aos-delay="300"

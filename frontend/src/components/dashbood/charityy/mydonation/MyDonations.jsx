@@ -1,55 +1,79 @@
 import React, { useState } from "react";
+import {
+  useGetAllDonationsQuery,
+  useDeleteDonationMutation,
+  useUpdateDonationMutation,
+} from "../../../../../Redux/slices/DonationApi.js";
+import { FaTrash } from "react-icons/fa";
+import toast from "react-hot-toast";
 
 export default function MyDonations() {
   const [filter, setFilter] = useState("All");
+  const { data: donations = [], isLoading } = useGetAllDonationsQuery();
+  const [deleteDonation] = useDeleteDonationMutation();
+  const [updateDonation] = useUpdateDonationMutation();
 
-  const donations = [
-    { id: "TXN-1001", donor: "Qatar Airways", campaign: "Education for All", amount: "500,000 QAR", method: "Bank Transfer", date: "30-Aug-2025", status: "Completed" },
-    { id: "TXN-1002", donor: "Mohammed Abdullah", campaign: "Orphan Support", amount: "10,000 QAR", method: "Credit Card", date: "28-Aug-2025", status: "Pending" },
-    { id: "TXN-1003", donor: "Vodafone Qatar", campaign: "Healthcare Aid", amount: "1,200,000 QAR", method: "Mobile Wallet", date: "15-Aug-2025", status: "Completed" },
-    { id: "TXN-1004", donor: "Fatima Zahra", campaign: "Food Distribution", amount: "2,000 QAR", method: "Debit Card", date: "01-Sep-2025", status: "Failed" },
-  ];
+  const [showModal, setShowModal] = useState(false);
+  const [selectedDonation, setSelectedDonation] = useState(null);
 
-  const filteredData = filter === "All" ? donations : donations.filter((item) => item.status === filter);
+  const filteredData =
+    filter === "All"
+      ? donations
+      : donations.filter((d) => d.confirmation === filter);
+
+  if (isLoading) return <p>Loading donations...</p>;
+
+  const confirmDelete = (donation) => {
+    setSelectedDonation(donation);
+    setShowModal(true);
+  };
+
+  const handleDelete = async () => {
+    if (!selectedDonation) return;
+    try {
+      await deleteDonation(selectedDonation._id).unwrap();
+      toast.success("Donation deleted successfully!");
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to delete donation.");
+    } finally {
+      setShowModal(false);
+      setSelectedDonation(null);
+    }
+  };
+
+  const handleStatusChange = async (id, newStatus) => {
+    try {
+      await updateDonation({ id, confirmation: newStatus }).unwrap();
+      toast.success("Donation status updated successfully!");
+    } catch (err) {
+      console.error(err);
+      toast.error("Failed to update donation.");
+    }
+  };
 
   return (
     <div className="w-full pt-28 p-6 bg-gray-50">
-      {/* pt-28 => gives space below fixed navbar */}
+      <h2 className="text-2xl font-bold mb-6"> Donations</h2>
 
-      <h2 className="text-2xl font-bold text-gray-800 mb-6">Donations</h2>
-
-      <h3 className="text-lg font-semibold text-gray-700 mb-4">Donation Transactions</h3>
-
+      {/* Filter Buttons */}
       <div className="flex flex-wrap gap-3 mb-6">
-        <button
-          onClick={() => setFilter("All")}
-          className={`px-4 py-2 rounded-lg text-sm font-medium border ${filter === "All" ? "bg-[#8A1538] text-white" : "bg-white text-gray-700"}`}
-        >
-          Show All
-        </button>
-
-        <button
-          onClick={() => setFilter("Completed")}
-          className={`px-4 py-2 rounded-lg text-sm font-medium border ${filter === "Completed" ? "bg-green-600 text-white" : "bg-white text-gray-700"}`}
-        >
-          Show Completed
-        </button>
-
-        <button
-          onClick={() => setFilter("Pending")}
-          className={`px-4 py-2 rounded-lg text-sm font-medium border ${filter === "Pending" ? "bg-yellow-500 text-white" : "bg-white text-gray-700"}`}
-        >
-          Show Pending
-        </button>
-
-        <button
-          onClick={() => setFilter("Failed")}
-          className={`px-4 py-2 rounded-lg text-sm font-medium border ${filter === "Failed" ? "bg-red-600 text-white" : "bg-white text-gray-700"}`}
-        >
-          Show Failed
-        </button>
+        {["All", "Pending", "Confirmed"].map((status) => (
+          <button
+            key={status}
+            onClick={() => setFilter(status)}
+            className={`px-4 py-2 rounded-lg border ${
+              filter === status
+                ? "bg-[#8A1538] text-white"
+                : "bg-white text-gray-700"
+            }`}
+          >
+            {status}
+          </button>
+        ))}
       </div>
 
+      {/* Donations Table */}
       <div className="overflow-x-auto">
         <table className="w-full border-collapse">
           <thead>
@@ -58,45 +82,96 @@ export default function MyDonations() {
               <th className="p-3">Donor Name</th>
               <th className="p-3">Campaign</th>
               <th className="p-3">Amount</th>
-              <th className="p-3">Payment Method</th>
-              <th className="p-3">Date</th>
               <th className="p-3">Status</th>
+              <th className="p-3">Date</th>
+              <th className="p-3">Actions</th>
             </tr>
           </thead>
-
           <tbody>
-            {filteredData.map((item, i) => (
-              <tr key={i} className="border-b text-sm hover:bg-gray-50 transition">
-                <td className="p-3 font-medium">{item.id}</td>
-                <td className="p-3">{item.donor}</td>
-                <td className="p-3">{item.campaign}</td>
-                <td className="p-3 font-semibold">{item.amount}</td>
-                <td className="p-3">{item.method}</td>
-                <td className="p-3">{item.date}</td>
-                <td className="p-3">
-                  <span
-                    className={`px-3 py-1 rounded-full text-xs font-semibold
-                      ${item.status === "Completed" && "bg-green-100 text-green-700"}
-                      ${item.status === "Pending" && "bg-yellow-100 text-yellow-700"}
-                      ${item.status === "Failed" && "bg-red-100 text-red-700"}
-                    `}
-                  >
-                    {item.status}
-                  </span>
-                </td>
-              </tr>
-            ))}
-
-            {filteredData.length === 0 && (
+            {filteredData.length ? (
+              filteredData.map((item) => (
+                <tr
+                  key={item._id}
+                  className="border-b text-sm hover:bg-gray-50"
+                >
+                  <td className="p-3">{item._id}</td>
+                  <td className="p-3">{item.fullName}</td>
+                  <td className="p-3">{item.campaign}</td>
+                  <td className="p-3">{item.price}</td>
+                  <td className="p-3">
+                    <select
+                      value={item.confirmation}
+                      onChange={(e) =>
+                        handleStatusChange(item._id, e.target.value)
+                      }
+                      className="border rounded px-2 py-1"
+                    >
+                      <option value="Pending">Pending</option>
+                      <option value="Confirmed">Confirmed</option>
+                    </select>
+                  </td>
+                  <td className="p-3">
+                    {new Date(item.date).toLocaleDateString()}
+                  </td>
+                  <td className="p-3 flex items-center gap-3">
+                    <button
+                      onClick={() => confirmDelete(item)}
+                      className="text-red-600 hover:text-red-800"
+                    >
+                      <FaTrash />
+                    </button>
+                  </td>
+                </tr>
+              ))
+            ) : (
               <tr>
                 <td colSpan="7" className="p-6 text-center text-gray-500">
-                  No transactions found.
+                  No donations found.
                 </td>
               </tr>
             )}
           </tbody>
         </table>
       </div>
+
+      {/* Confirmation Modal */}
+      {showModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center">
+          {/* Blurred Background */}
+          <div
+            className="absolute inset-0 backdrop-blur-sm bg-black/20"
+            onClick={() => setShowModal(false)}
+          ></div>
+
+          {/* Modal */}
+          <div
+            className="relative bg-white rounded-xl shadow-2xl p-6 w-96 max-w-full transform transition-all duration-200 scale-100 opacity-100"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3 className="text-xl font-semibold mb-2 text-gray-800">
+              Confirm Delete
+            </h3>
+            <p className="mb-6 text-gray-600">
+              Are you sure you want to delete the donation by{" "}
+              <strong>{selectedDonation?.fullName}</strong>?
+            </p>
+            <div className="flex justify-end gap-4">
+              <button
+                onClick={() => setShowModal(false)}
+                className="px-5 py-2 bg-gray-300 rounded-lg hover:bg-gray-400 transition"
+              >
+                No
+              </button>
+              <button
+                onClick={handleDelete}
+                className="px-5 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700 transition"
+              >
+                Yes
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

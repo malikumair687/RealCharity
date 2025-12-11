@@ -1,8 +1,9 @@
- import React, { useEffect } from "react";
+import React, { useEffect } from "react";
 import { FaBullseye, FaCheckCircle, FaCalendarAlt } from "react-icons/fa";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import { useGetAllCampaignsQuery } from "../../../Redux/slices/CampaignApi";
+import { Link } from "react-router-dom";
 
 const CampaignCard = () => {
   const { data: campaigns = [], isLoading, error } = useGetAllCampaignsQuery();
@@ -94,6 +95,25 @@ const CampaignCard = () => {
                     <p className="mt-2 text-sm text-black text-right">
                       {progress.toFixed(1)}% funded
                     </p>
+
+                    {/* Donate Now Button */}
+                    <Link
+                      to={`/makedonation?campaign=${encodeURIComponent(campaign.title)}`}
+                      className="w-full"
+                    >
+                      <button
+                        className="mt-5 w-full py-2 rounded-lg font-medium cursor-pointer transition-all duration-500 ease-in-out"
+                        style={{ backgroundColor: "#821435", color: "white" }}
+                        onMouseOver={(e) =>
+                          (e.currentTarget.style.backgroundColor = "#543D2E")
+                        }
+                        onMouseOut={(e) =>
+                          (e.currentTarget.style.backgroundColor = "#821435")
+                        }
+                      >
+                        Donate Now
+                      </button>
+                    </Link>
                   </div>
                 </div>
               </div>

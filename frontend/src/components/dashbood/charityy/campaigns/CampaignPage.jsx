@@ -23,15 +23,11 @@ const CampaignPage = () => {
   const [preview, setPreview] = useState(null);
   const [editId, setEditId] = useState(null);
 
-  // RTK Query hooks
   const { data: campaigns = [], refetch } = useGetAllCampaignsQuery();
   const [createCampaign, { isLoading }] = useCreateCampaignMutation();
   const [updateCampaign] = useUpdateCampaignMutation();
   const [deleteCampaign] = useDeleteCampaignMutation();
 
-  // -------------------------------
-  // Handle image selection
-  // -------------------------------
   const handleImageChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -40,9 +36,6 @@ const CampaignPage = () => {
     }
   };
 
-  // -------------------------------
-  // Handle create or update campaign
-  // -------------------------------
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!title || !goalAmount) {
@@ -71,7 +64,6 @@ const CampaignPage = () => {
         toast.success("Campaign Created!");
       }
 
-      // Reset form
       setTitle("");
       setCategory("Medical");
       setGoalAmount("");
@@ -90,9 +82,6 @@ const CampaignPage = () => {
     }
   };
 
-  // -------------------------------
-  // Fill form for editing campaign
-  // -------------------------------
   const handleEdit = (campaign) => {
     setEditId(campaign._id);
     setTitle(campaign.title);
@@ -106,9 +95,6 @@ const CampaignPage = () => {
     setPreview(campaign.image);
   };
 
-  // -------------------------------
-  // Delete a campaign
-  // -------------------------------
   const handleDelete = async (id) => {
     if (!window.confirm("Are you sure you want to delete this campaign?")) return;
 
@@ -122,7 +108,7 @@ const CampaignPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[#f4efeb] p-6 md:p-12">
+    <div className="min-h-screen bg-[#f4efeb] p-6 md:p-12 mt-24">
       <h1 className="text-3xl font-semibold mb-6">Manage Campaigns</h1>
 
       {/* Create/Edit Campaign */}
@@ -282,7 +268,10 @@ const CampaignPage = () => {
             ))}
           </tbody>
         </table>
-        {campaigns.length === 0 && <p className="text-center py-5 text-gray-500">No campaigns created yet.</p>}
+
+        {campaigns.length === 0 && (
+          <p className="text-center py-5 text-gray-500">No campaigns created yet.</p>
+        )}
       </div>
     </div>
   );

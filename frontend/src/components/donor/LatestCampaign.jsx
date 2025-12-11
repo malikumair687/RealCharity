@@ -6,7 +6,7 @@ import "aos/dist/aos.css";
 const compainAry = [
   {
     id: 1,
-    img: "https://images.unsplash.com/photo-1652858672796-960164bd632b?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0",
+    img: "education for all.jpg",
     name: "Education for All",
     desc: "Help underprivileged children get access to quality education.",
     target: "$10,000",
@@ -14,7 +14,7 @@ const compainAry = [
   },
   {
     id: 2,
-    img: "https://media.istockphoto.com/id/2171791945/photo/portrait-of-volunteers-during-donation-event-outdoors.webp?a=1&b=1&s=612x612",
+    img: "clean water project.jpg",
     name: "Clean Water Project",
     desc: "Providing clean and safe drinking water in rural areas.",
     target: "$8,000",
@@ -22,7 +22,7 @@ const compainAry = [
   },
   {
     id: 3,
-    img: "https://images.unsplash.com/photo-1593113616828-6f22bca04804?q=80&w=870&auto=format&fit=crop&ixlib=rb-4.1.0",
+    img: "medical aid for children.jpg",
     name: "Medical Aid",
     desc: "Support critical medical treatments for those in need.",
     target: "$15,000",
@@ -30,7 +30,7 @@ const compainAry = [
   },
   {
     id: 4,
-    img: "https://images.unsplash.com/photo-1593113598332-cd288d649433?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0",
+    img: "food for families.jpg",
     name: "Food for Families",
     desc: "Providing essential groceries to struggling families.",
     target: "$12,000",
@@ -38,7 +38,7 @@ const compainAry = [
   },
   {
     id: 5,
-    img: "https://media.istockphoto.com/id/2171791945/photo/portrait-of-volunteers-during-donation-event-outdoors.webp?a=1&b=1&s=612x612",
+    img: "flood releif fund.jpg",
     name: "Disaster Relief",
     desc: "Emergency aid for families affected by natural disasters.",
     target: "$20,000",
@@ -46,7 +46,7 @@ const compainAry = [
   },
   {
     id: 6,
-    img: "https://images.unsplash.com/photo-1643321613219-6d50e1372c0a?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0",
+    img: "housing support.jpg",
     name: "Housing Support",
     desc: "Helping homeless families with safe housing solutions.",
     target: "$25,000",
@@ -107,7 +107,7 @@ export default function LatestCampaign() {
                 </div>
               </div>
 
-              <Link to="/contact">
+              <Link to="/makedonation">
                 <button
                   className="mt-5 w-full py-2 rounded-lg font-medium cursor-pointer transition-all duration-500 ease-in-out"
                   style={{ backgroundColor: "#821435", color: "white" }}
@@ -124,3 +124,5 @@ export default function LatestCampaign() {
     </div>
   );
 }
+
+
